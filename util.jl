@@ -25,7 +25,7 @@ function inter_point{T<:Number,N}(x::Vector{T}, y::AbstractArray{T,N}, x0::T)
                 Li*=(x0-x[j])/(x[i]-x[j])
             end
         end
-        p.+=Li.*y[i, [1:size(y,n) for n=2:N]...]
+        p+=Li.*y[i, [1:size(y,n) for n=2:N]...]
     end
     return p
 end
@@ -82,7 +82,7 @@ function projection(P, GP, stepSize, sm)
         tempCol = GP[:,i]
         tempCol = ( stepSize/( maximum(tempCol)*nnz(tempCol) ) ) * tempCol
         col = col + tempCol
-        rowval = col.rowval
+        rowval = col.nzind
         nzval = sort(col.nzval, rev = true)
         count = 1; total = nzval[1] - 1; theta = total/count
         while count < length(nzval) && nzval[count] > theta
